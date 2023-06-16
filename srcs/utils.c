@@ -22,36 +22,9 @@ int rgba_to_color(float r, float g, float b, float a)
     return (color);
 }
 
-float   dot(t_vec3 p, t_vec3 q)
-{
-    return (p.x * q.x + p.y * q.y + p.z * q.z);
-}
-
-t_vec3  get_hitpoint(t_vec3 a, t_vec3 b, float t)
-{
-    t_vec3  h;
-
-    h.x = a.x + b.x * t;
-    h.y = a.y + b.y * t;
-    h.z = a.z + b.z * t;
-    return (h);
-}
-
-t_vec3  normalize(t_vec3 vec)
-{
-    t_vec3  v;
-    float   magnitude;
-
-    magnitude = sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
-    v.x = vec.x / magnitude;
-    v.y = vec.y / magnitude;
-    v.z = vec.z / magnitude;
-    return (v);
-}
-
 float   min_float(float n1, float n2)
 {
-    if (n1 > n2)
+    if (n1 > n2 && n2 > 0.0)
         return (n2);
     return (n1);
 }

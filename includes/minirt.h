@@ -9,7 +9,17 @@
 
 # define WIDTH 1920
 # define HEIGHT 1080
+# define PI 3.14159265359
 # define ASPECT_RATIO (float)WIDTH / (float)HEIGHT
+
+typedef float m4 __attribute__((matrix_type(4, 4)));
+typedef float vec4 __attribute__((ext_vector_type(4)));
+
+typedef struct s_mat
+{
+	float	*mat;
+	int		size;
+}	t_mat;
 
 typedef struct s_vec2
 {
@@ -35,6 +45,7 @@ typedef struct s_vec4
 typedef struct s_camera
 {
 	t_vec3  origin;
+	t_vec3	rotate;
 	t_vec3  direction;
 	int		fov;
 }   t_camera;
@@ -62,6 +73,9 @@ void    renderer(t_data *data, char *name);
 // KEY
 int		key(int keycode, t_data *data);
 
+// MATRIX
+t_mat    matrix_init(int size);
+
 // CAMERA
 void    new_camera(t_camera *cam, float x, float y, float z, int fov);
 void    move_camera_origin(t_camera *cam, float x, float y, float z);
@@ -73,13 +87,17 @@ void	render(t_data *data);
 void	pixel_put(t_image *img, int x, int y, int color);
 
 // UTILS
-float   dot(t_vec3 p, t_vec3 q);
-t_vec3  get_hitpoint(t_vec3 a, t_vec3 b, float t);
 int 	rgba_to_color(float r, float g, float b, float a);
-t_vec3	normalize(t_vec3 vec);
 float   min_float(float n1, float n2);
 
 // EXIT
 int		quit(t_data *data);
+
+// VEC
+t_vec3  vec3(float x, float y, float z);
+t_vec3	normalize(t_vec3 vec);
+t_vec3  get_hitpoint(t_vec3 a, t_vec3 b, float t);
+float   dot(t_vec3 p, t_vec3 q);
+t_vec3  vec3_substract(t_vec3 a, t_vec3 b);
 
 #endif

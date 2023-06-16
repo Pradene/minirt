@@ -1,16 +1,18 @@
 FILES	= camera.c \
 		key.c \
 		main.c \
+		matrix.c \
 		pixel_put.c \
 		render.c \
 		renderer.c \
-		utils.c
+		utils.c \
+		vec.c
 
 SRCS	= $(addprefix srcs/, $(FILES))
 
 OBJS	= $(SRCS:.c=.o)
 
-CC		= cc
+CC		= cc -fenable-matrix
 
 CFLAGS	= -Wall -Wextra -Werror -g3
 
