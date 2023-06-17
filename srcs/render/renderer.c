@@ -1,7 +1,10 @@
-#include "../includes/minirt.h"
+#include "../../includes/minirt.h"
 
 void    renderer(t_data *data, char *name)
 {
+    data->win = NULL;
+    data->img.image = NULL;
+    data->img.data = NULL;
     data->id = mlx_init();
     if (!data->id)
         quit(data);

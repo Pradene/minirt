@@ -1,4 +1,4 @@
-#include "../includes/minirt.h"
+#include "../../includes/minirt.h"
 
 void	pixel_put(t_image *img, int x, int y, int color)
 {

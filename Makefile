@@ -1,12 +1,16 @@
-FILES	= camera.c \
-		key.c \
-		main.c \
-		matrix.c \
-		pixel_put.c \
-		render.c \
-		renderer.c \
-		utils.c \
-		vec.c
+FILES	= camera/camera.c \
+		event/event.c \
+		math/matrix.c \
+		math/vec.c \
+		object/sphere.c \
+		render/renderer.c \
+		render/render.c \
+		utils/clamp.c \
+		utils/fmin.c \
+		utils/pixel.c \
+		utils/radian.c \
+		utils/rgba.c \
+		main.c
 
 SRCS	= $(addprefix srcs/, $(FILES))
 
@@ -17,6 +21,8 @@ CC		= cc -fenable-matrix
 CFLAGS	= -Wall -Wextra -Werror -g3
 
 NAME	= minirt
+
+.SILENT:
 
 %.o: %.c
 	$(CC) $(CFLAGS) -I/usr/include -Imlx_linux -O3 -c $< -o $@

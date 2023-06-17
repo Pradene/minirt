@@ -1,11 +1,12 @@
 #ifndef MINIRT
 # define MINIRT
 
+# include <stdio.h>
+# include <stdlib.h>
+# include <math.h>
+
 # include "../mlx_linux/mlx.h"
 # include "../mlx_linux/mlx_int.h"
-
-# include <math.h>
-# include <stdio.h>
 
 # define WIDTH 1920
 # define HEIGHT 1080
@@ -13,40 +14,27 @@
 # define ASPECT_RATIO (float)WIDTH / (float)HEIGHT
 
 typedef float m4 __attribute__((matrix_type(4, 4)));
-typedef float vec4 __attribute__((ext_vector_type(4)));
+typedef float v4 __attribute__((ext_vector_type(4)));
+typedef float v3 __attribute__((ext_vector_type(3)));
+typedef float v2 __attribute__((ext_vector_type(2)));
 
-typedef struct s_mat
+typedef struct s_object
 {
-	float	*mat;
-	int		size;
-}	t_mat;
-
-typedef struct s_vec2
-{
-	float   x;
-	float   y;
-}   t_vec2;
-
-typedef struct s_vec3
-{
-	float   x;
-	float   y;
-	float   z;
-}   t_vec3;
-
-typedef struct s_vec4
-{
-	float   r;
-	float   g;
-	float   b;
-	float   a;
-}   t_vec4;
+	v3      position;
+	v3      rotate;
+	v3      scale;
+	float	radius;
+}	t_object;
 
 typedef struct s_camera
 {
-	t_vec3  origin;
-	t_vec3	rotate;
-	t_vec3  direction;
+    m4      view;
+    m4      projection;
+	v3      position;
+	v3      rotate;
+	v3      direction;
+	float	near;
+	float	far;
 	int		fov;
 }   t_camera;
 
@@ -65,39 +53,51 @@ typedef struct s_data
 	void		*win;
 	t_image		img;
 	t_camera	camera;
+	t_object	object;
+	v2          mouse_pos;
 }   t_data;
 
-// INITIALISATION
-void    renderer(t_data *data, char *name);
-
-// KEY
-int		key(int keycode, t_data *data);
-
-// MATRIX
-t_mat    matrix_init(int size);
+int     quit(t_data	*data);
 
 // CAMERA
-void    new_camera(t_camera *cam, float x, float y, float z, int fov);
-void    move_camera_origin(t_camera *cam, float x, float y, float z);
-t_vec3  get_camera_origin(t_data *data);
-t_vec3  get_camera_direction(t_data *data);
+void    move_camera_position(t_camera *cam, float x, float y, float z);
+void    new_camera(t_camera *cam, v3 position, int fov);
+
+// EVENT
+int     mouse(int x, int y, t_data *data);
+int     key(int keycode, t_data *data);
+
+// MATH
+void    matprint(m4 m);
+void    imatrix(m4 *m);
+
+void    v3print(v3 v);
+v3      vec3(float x, float y, float z);
+void    v4print(v4 v);
+v4      vec4(float x, float y, float z, float w);
+v4      mult_v4_m4(m4 m, v4 v);
+
+float   dot(v3 p, v3 q);
+v3      normalize(v3 vec);
+v3      vec3_substract(v3 a, v3 b);
+
+// OBJECT
+t_object    sphere(v3 pos, float radius);
 
 // RENDER
-void	render(t_data *data);
-void	pixel_put(t_image *img, int x, int y, int color);
+int     intersect(t_data *data, v2 coord);
+void    trace(t_data *data, t_image *img);
+int     update(t_data *data);
+void    render(t_data *data);
+
+// RENDERER
+void    renderer(t_data *data, char *name);
 
 // UTILS
-int 	rgba_to_color(float r, float g, float b, float a);
+void	pixel_put(t_image *img, int x, int y, int color);
+float   clamp(float v, float min, float max);
+int     rgba_to_color(float r, float g, float b, float a);
 float   min_float(float n1, float n2);
-
-// EXIT
-int		quit(t_data *data);
-
-// VEC
-t_vec3  vec3(float x, float y, float z);
-t_vec3	normalize(t_vec3 vec);
-t_vec3  get_hitpoint(t_vec3 a, t_vec3 b, float t);
-float   dot(t_vec3 p, t_vec3 q);
-t_vec3  vec3_substract(t_vec3 a, t_vec3 b);
+float   radian(float angle);
 
 #endif

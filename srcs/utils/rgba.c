@@ -1,13 +1,4 @@
-#include "../includes/minirt.h"
-
-float clamp(float v, float min, float max)
-{
-    if (v < min)
-        return (min);
-    else if (v > max)
-        return (max);
-    return (v);
-}
+#include "../../includes/minirt.h"
 
 int rgba_to_color(float r, float g, float b, float a)
 {
@@ -20,11 +11,4 @@ int rgba_to_color(float r, float g, float b, float a)
     color = ((int)(a * 255) << 24) | ((int)(r * 255) << 16) \
     | ((int)(g * 255) << 8) | ((int)(b * 255) << 0);
     return (color);
-}
-
-float   min_float(float n1, float n2)
-{
-    if (n1 > n2 && n2 > 0.0)
-        return (n2);
-    return (n1);
 }
